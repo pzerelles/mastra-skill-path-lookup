@@ -1,11 +1,9 @@
-import { Agent } from '@mastra/core/agent';
-import { Memory } from '@mastra/memory';
-import { weatherTool } from '../tools/weather-tool';
-import { scorers } from '../scorers/weather-scorer';
+import { Agent } from "@mastra/core/agent";
+import { Memory } from "@mastra/memory";
 
 export const weatherAgent = new Agent({
-  id: 'weather-agent',
-  name: 'Weather Agent',
+  id: "weather-agent",
+  name: "Weather Agent",
   instructions: `
       You are a helpful weather assistant that provides accurate weather information and can help planning activities based on the weather.
 
@@ -17,33 +15,7 @@ export const weatherAgent = new Agent({
       - Keep responses concise but informative
       - If the user asks for activities and provides the weather forecast, suggest activities based on the weather forecast.
       - If the user asks for activities, respond in the format they request.
-
-      Use the weatherTool to fetch current weather data.
 `,
-  model: 'openai/gpt-5-mini',
-  tools: { weatherTool },
-  scorers: {
-    toolCallAppropriateness: {
-      scorer: scorers.toolCallAppropriatenessScorer,
-      sampling: {
-        type: 'ratio',
-        rate: 1,
-      },
-    },
-    completeness: {
-      scorer: scorers.completenessScorer,
-      sampling: {
-        type: 'ratio',
-        rate: 1,
-      },
-    },
-    translation: {
-      scorer: scorers.translationScorer,
-      sampling: {
-        type: 'ratio',
-        rate: 1,
-      },
-    },
-  },
+  model: "azure-openai/gpt-4.1-mini",
   memory: new Memory(),
 });
